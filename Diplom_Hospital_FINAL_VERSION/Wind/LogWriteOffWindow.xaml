@@ -1,0 +1,75 @@
+﻿<Window x:Class="Diplom_Hospital.Wind.LogWriteOffWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Diplom_Hospital.Wind"
+        mc:Ignorable="d"
+        d:DesignHeight="450" d:DesignWidth="800"
+        Title="Списание лекарств">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Arial Narrow"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Background" Value="DeepSkyBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Width" Value="200"/>
+        </Style>
+    </Window.Resources>
+    <Border BorderBrush="DeepSkyBlue" BorderThickness="10">
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="60"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Background="GhostWhite" Grid.Row="0" Margin="70,40,93,40">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="ID На складе:"></Label>
+                    <TextBox x:Name="tbId" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="ID лекарства:"></Label>
+                    <TextBox x:Name="tbIdMedicine" IsReadOnly="True" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="Название лекарства:"></Label>
+                    <TextBox x:Name="tbMedicineName" IsReadOnly="True" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="Описание:"></Label>
+                    <TextBox x:Name="tbDescription" IsReadOnly="True" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="Категория:"></Label>
+                    <TextBox x:Name="tbCategory" IsReadOnly="True" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="Дата списания:"></Label>
+                    <DatePicker x:Name="dpDepartament" Width="200"></DatePicker>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="Количество:"></Label>
+                    <TextBox x:Name="tbQuantity" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="Номер сотрудника:"></Label>
+                    <TextBox x:Name="tbIdEmployee" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label Width="150" Content="Причина списания:"></Label>
+                    <TextBox x:Name="tbWriteOffReason" Style="{StaticResource TextBoxStyle}"></TextBox>
+                </StackPanel>
+            </StackPanel>
+
+            <Button x:Name="btnMakeOrder" Content="Списать" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Center" Margin="20,0,0,20" Grid.Row="1" Width="121" Click="btnMakeOrder_Click"/>
+        </Grid>
+    </Border>
+</Window>

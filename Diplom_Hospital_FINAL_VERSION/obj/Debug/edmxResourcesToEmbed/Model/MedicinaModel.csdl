@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MedicinaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Balance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdMedicine" Type="Int32" />
+    <Property Name="IdHospitalDepartment" Type="Int32" />
+    <Property Name="ImplementationMonth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ImplementationYear" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="HospitalDepartament" Relationship="Self.FK_Balance_HospitalDepartament" FromRole="Balance" ToRole="HospitalDepartament" />
+    <NavigationProperty Name="Medicine" Relationship="Self.FK_Balance_Medicine" FromRole="Balance" ToRole="Medicine" />
+    <NavigationProperty Name="LogWriteOff" Relationship="Self.FK_LogWriteOff_Balance" FromRole="Balance" ToRole="LogWriteOff" />
+    <Property Name="IsDeleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameCategory" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Medicine" Relationship="Self.FK_Medicine_Category" FromRole="Category" ToRole="Medicine" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Surname" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Patronymic" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IdHospitalDepartment" Type="Int32" />
+    <NavigationProperty Name="HospitalDepartament" Relationship="Self.FK_Employee_HospitalDepartament" FromRole="Employee" ToRole="HospitalDepartament" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Employee" FromRole="Employee" ToRole="Orders" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_Users_Employee" FromRole="Employee" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="HospitalDepartament">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameDepartament" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Balance" Relationship="Self.FK_Balance_HospitalDepartament" FromRole="HospitalDepartament" ToRole="Balance" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_HospitalDepartament" FromRole="HospitalDepartament" ToRole="Employee" />
+    <NavigationProperty Name="LogOfReceipts" Relationship="Self.FK_LogOfReceipts_HospitalDepartament" FromRole="HospitalDepartament" ToRole="LogOfReceipts" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_HospitalDepartament" FromRole="HospitalDepartament" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="LogOfReceipts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdMedicine" Type="Int32" />
+    <Property Name="DateRecepts" Type="DateTime" Precision="0" />
+    <Property Name="QuantityReceipts" Type="Int32" />
+    <Property Name="ImplementationMonth" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="ImplementationYear" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="IdHospitalDepartament" Type="Int32" />
+    <NavigationProperty Name="HospitalDepartament" Relationship="Self.FK_LogOfReceipts_HospitalDepartament" FromRole="LogOfReceipts" ToRole="HospitalDepartament" />
+    <NavigationProperty Name="Medicine" Relationship="Self.FK_LogOfReceipts_Medicine" FromRole="LogOfReceipts" ToRole="Medicine" />
+  </EntityType>
+  <EntityType Name="LogWriteOff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdBalance" Type="Int32" />
+    <Property Name="DateWrite" Type="DateTime" Precision="0" />
+    <Property Name="QuantityWrite" Type="Int32" />
+    <Property Name="IdEmployee" Type="Int32" />
+    <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Balance" Relationship="Self.FK_LogWriteOff_Balance" FromRole="LogWriteOff" ToRole="Balance" />
+  </EntityType>
+  <EntityType Name="Medicine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MedicineName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IdCategory" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Manufacture" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Balance" Relationship="Self.FK_Balance_Medicine" FromRole="Medicine" ToRole="Balance" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Medicine_Category" FromRole="Medicine" ToRole="Category" />
+    <NavigationProperty Name="LogOfReceipts" Relationship="Self.FK_LogOfReceipts_Medicine" FromRole="Medicine" ToRole="LogOfReceipts" />
+    <NavigationProperty Name="OrderDeyails" Relationship="Self.FK_OrderDeyails_Medicine" FromRole="Medicine" ToRole="OrderDeyails" />
+  </EntityType>
+  <EntityType Name="OrderDeyails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdOrder" Type="Int32" />
+    <Property Name="IdMedicine" Type="Int32" />
+    <Property Name="Quantity" Type="Int32" />
+    <NavigationProperty Name="Medicine" Relationship="Self.FK_OrderDeyails_Medicine" FromRole="OrderDeyails" ToRole="Medicine" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_OrderDeyails_Orders" FromRole="OrderDeyails" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateOrder" Type="DateTime" Precision="0" />
+    <Property Name="IdDepartament" Type="Int32" />
+    <Property Name="IdEmployee" Type="Int32" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Orders_Employee" FromRole="Orders" ToRole="Employee" />
+    <NavigationProperty Name="HospitalDepartament" Relationship="Self.FK_Orders_HospitalDepartament" FromRole="Orders" ToRole="HospitalDepartament" />
+    <NavigationProperty Name="OrderDeyails" Relationship="Self.FK_OrderDeyails_Orders" FromRole="Orders" ToRole="OrderDeyails" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Login" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_Users_Employee" FromRole="Users" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_Balance_HospitalDepartament">
+    <End Role="HospitalDepartament" Type="Self.HospitalDepartament" Multiplicity="0..1" />
+    <End Role="Balance" Type="Self.Balance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalDepartament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Balance">
+        <PropertyRef Name="IdHospitalDepartment" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Balance_Medicine">
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+    <End Role="Balance" Type="Self.Balance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Balance">
+        <PropertyRef Name="IdMedicine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogWriteOff_Balance">
+    <End Role="Balance" Type="Self.Balance" Multiplicity="0..1" />
+    <End Role="LogWriteOff" Type="Self.LogWriteOff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Balance">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogWriteOff">
+        <PropertyRef Name="IdBalance" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Medicine_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Medicine">
+        <PropertyRef Name="IdCategory" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_HospitalDepartament">
+    <End Role="HospitalDepartament" Type="Self.HospitalDepartament" Multiplicity="0..1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalDepartament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="IdHospitalDepartment" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="IdEmployee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Users" Type="Self.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="IdEmployee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogOfReceipts_HospitalDepartament">
+    <End Role="HospitalDepartament" Type="Self.HospitalDepartament" Multiplicity="0..1" />
+    <End Role="LogOfReceipts" Type="Self.LogOfReceipts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalDepartament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogOfReceipts">
+        <PropertyRef Name="IdHospitalDepartament" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_HospitalDepartament">
+    <End Role="HospitalDepartament" Type="Self.HospitalDepartament" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalDepartament">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="IdDepartament" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LogOfReceipts_Medicine">
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+    <End Role="LogOfReceipts" Type="Self.LogOfReceipts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="LogOfReceipts">
+        <PropertyRef Name="IdMedicine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDeyails_Medicine">
+    <End Role="Medicine" Type="Self.Medicine" Multiplicity="0..1" />
+    <End Role="OrderDeyails" Type="Self.OrderDeyails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderDeyails">
+        <PropertyRef Name="IdMedicine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDeyails_Orders">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+    <End Role="OrderDeyails" Type="Self.OrderDeyails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="OrderDeyails">
+        <PropertyRef Name="IdOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MedicinaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Balance" EntityType="Self.Balance" />
+    <EntitySet Name="Category" EntityType="Self.Category" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" />
+    <EntitySet Name="HospitalDepartament" EntityType="Self.HospitalDepartament" />
+    <EntitySet Name="LogOfReceipts" EntityType="Self.LogOfReceipts" />
+    <EntitySet Name="LogWriteOff" EntityType="Self.LogWriteOff" />
+    <EntitySet Name="Medicine" EntityType="Self.Medicine" />
+    <EntitySet Name="OrderDeyails" EntityType="Self.OrderDeyails" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <AssociationSet Name="FK_Balance_HospitalDepartament" Association="Self.FK_Balance_HospitalDepartament">
+      <End Role="HospitalDepartament" EntitySet="HospitalDepartament" />
+      <End Role="Balance" EntitySet="Balance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Balance_Medicine" Association="Self.FK_Balance_Medicine">
+      <End Role="Medicine" EntitySet="Medicine" />
+      <End Role="Balance" EntitySet="Balance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogWriteOff_Balance" Association="Self.FK_LogWriteOff_Balance">
+      <End Role="Balance" EntitySet="Balance" />
+      <End Role="LogWriteOff" EntitySet="LogWriteOff" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Medicine_Category" Association="Self.FK_Medicine_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="Medicine" EntitySet="Medicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_HospitalDepartament" Association="Self.FK_Employee_HospitalDepartament">
+      <End Role="HospitalDepartament" EntitySet="HospitalDepartament" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Employee" Association="Self.FK_Orders_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Employee" Association="Self.FK_Users_Employee">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogOfReceipts_HospitalDepartament" Association="Self.FK_LogOfReceipts_HospitalDepartament">
+      <End Role="HospitalDepartament" EntitySet="HospitalDepartament" />
+      <End Role="LogOfReceipts" EntitySet="LogOfReceipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_HospitalDepartament" Association="Self.FK_Orders_HospitalDepartament">
+      <End Role="HospitalDepartament" EntitySet="HospitalDepartament" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LogOfReceipts_Medicine" Association="Self.FK_LogOfReceipts_Medicine">
+      <End Role="Medicine" EntitySet="Medicine" />
+      <End Role="LogOfReceipts" EntitySet="LogOfReceipts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDeyails_Medicine" Association="Self.FK_OrderDeyails_Medicine">
+      <End Role="Medicine" EntitySet="Medicine" />
+      <End Role="OrderDeyails" EntitySet="OrderDeyails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDeyails_Orders" Association="Self.FK_OrderDeyails_Orders">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="OrderDeyails" EntitySet="OrderDeyails" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(MedicinaModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(MedicinaModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>
